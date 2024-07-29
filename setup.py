@@ -16,6 +16,7 @@ setup(
 
         # Include launch files
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
+        (os.path.join('share', package_name, 'config'), glob('config/*.lua')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
