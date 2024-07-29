@@ -21,4 +21,10 @@ def generate_launch_description():
             name='static_tf_pub_laser',
             arguments=['0.065', '0', '0.02','3.14159265', '0', '0','base_link','laser'],
         ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='imu_tf_pub_laser',
+            arguments=['0.0', '0', '0.0','3.14159265', '0', '0','base_link','imu_link'],
+        ),
     ])

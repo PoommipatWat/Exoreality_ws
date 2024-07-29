@@ -13,7 +13,7 @@ import os
 def generate_launch_description():
 	map_dir = LaunchConfiguration(
 		'map',
-		default = PathJoinSubstitution([FindPackageShare('robot_bringup'),'maps','my_room.yaml'])
+		default = PathJoinSubstitution([FindPackageShare('robot_bringup'),'maps','firstmap.yaml'])
 		)
 	
 	param_dir = LaunchConfiguration(
@@ -51,14 +51,14 @@ def generate_launch_description():
 			}.items(),
 		),
 		
-		# Node(
-		# 	package= 'rviz2',
-		# 	executable= 'rviz2',
-		# 	name= 'rviz2',
-		# 	arguments= ['-d', rviz_config_dir],
-		# 	parameters = [{'use_sim_time': use_sim_time}],
-		# 	output = 'screen',
-		# 	),
+		Node(
+			package= 'rviz2',
+			executable= 'rviz2',
+			name= 'rviz2',
+		 	arguments= ['-d', rviz_config_dir],
+		 	parameters = [{'use_sim_time': use_sim_time}],
+		 	output = 'screen',
+		 	),
 		
 	
 	])
