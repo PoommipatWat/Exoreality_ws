@@ -17,6 +17,8 @@ setup(
         # Include launch files
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
         (os.path.join('share', package_name, 'config'), glob('config/*.lua')),
+        (os.path.join('share', package_name, 'maps'), glob('maps/*.yaml')),
+        (os.path.join('share', package_name, 'maps'), glob('maps/*.pgm')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
