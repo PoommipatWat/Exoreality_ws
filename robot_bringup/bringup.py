@@ -1,8 +1,7 @@
 import rclpy
 from rclpy.node import Node
-
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from geometry_msgs.msg import Twist
-
 import numpy as np
 
 class Omni_kinematics:
@@ -11,18 +10,16 @@ class Omni_kinematics:
         self.initial_theta = initial_theta
         self.Radius = Radius
 
-    def inverse_omni(self, vx, vy, w, max_rpm, filter=True): # max_rpm for 2.5 m/s at 41 mm self.Radius
+    def inverse_omni(self, vx, vy, w, max_rpm, filter=True):
         instance = np.array([[-np.sin(self.initial_theta), np.cos(self.initial_theta), self.Distance],
                             [-np.sin(np.pi/3 - self.initial_theta), -np.cos(np.pi/3 - self.initial_theta), self.Distance],
                             [np.sin(np.pi/3 + self.initial_theta), -np.cos(np.pi/3 + self.initial_theta), self.Distance]])
         v1, v2, v3 = instance @ np.array([vx, vy, w])
 
-        # Convert linear velocities to angular velocities (radians per second)
         omega1 = v1 / self.Radius
         omega2 = v2 / self.Radius
         omega3 = v3 / self.Radius
 
-        # Convert angular velocities to revolutions per minute (rpm)
         rpm1 = omega1 * 60 / (2 * np.pi)
         rpm2 = omega2 * 60 / (2 * np.pi)
         rpm3 = omega3 * 60 / (2 * np.pi)
@@ -36,13 +33,11 @@ class Omni_kinematics:
 
         return rpm1, rpm2, rpm3
 
-    def forward_omni(self, rpm1, rpm2, rpm3): # R in meters
-        # Convert RPM to radians per second
+    def forward_omni(self, rpm1, rpm2, rpm3):
         omega1 = rpm1 * 2 * np.pi / 60
         omega2 = rpm2 * 2 * np.pi / 60
         omega3 = rpm3 * 2 * np.pi / 60
 
-        # Convert angular velocities to linear velocities
         v1 = omega1 * self.Radius
         v2 = omega2 * self.Radius
         v3 = omega3 * self.Radius
@@ -57,6 +52,13 @@ class Bringup(Node):
     def __init__(self):
         super().__init__('bringup')
 
+        # Define a QoS profile that matches the publisher
+        qos_profile = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=10
+        )
+
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel/rpm', 10)
         self.publisher2_ = self.create_publisher(Twist, 'cmd_vel/vel', 10)
 
@@ -65,7 +67,13 @@ class Bringup(Node):
         self.subscriptions_ = self.create_subscription(Twist, 'cmd_vel', self.cmd_vel_callback, 10)
         self.subscriptions
 
-        self.subscriptions2 = self.create_subscription(Twist, 'rpm', self.cmd_vel_callback2, 10)
+        # Use the new QoS profile for the 'rpm' subscription
+        self.subscriptions2 = self.create_subscription(
+            Twist, 
+            'rpm', 
+            self.cmd_vel_callback2, 
+            qos_profile
+        )
         self.subscriptions2
         self.rpm = Twist()
 
@@ -94,7 +102,7 @@ class Bringup(Node):
         rpm_msg = Twist()
         rpm_msg.linear.x = rpm[0]
         rpm_msg.linear.y = rpm[1]
-        rpm_msg.angular.z = rpm[2]
+        rpm_msg.linear.z = rpm[2]
         self.publisher_.publish(rpm_msg)
 
         vel_msg = Twist()
@@ -102,15 +110,14 @@ class Bringup(Node):
         vel_msg.linear.y = self.rpm.linear.y
         vel_msg.angular.z = self.rpm.angular.z
         self.publisher2_.publish(vel_msg)
-        
 
 def main():
-	rclpy.init()
-	
-	node = Bringup()
-	rclpy.spin(node)
-	
-	rclpy.shutdown()
-	
+    rclpy.init()
+    
+    node = Bringup()
+    rclpy.spin(node)
+    
+    rclpy.shutdown()
+    
 if __name__ == "__main__":
-	main()
+    main()
