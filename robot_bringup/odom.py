@@ -29,7 +29,7 @@ class Odom(Node):
         # Extract velocities
         self.vx = msg.linear.x
         self.vy = msg.linear.y
-        self.vth = msg.angular.z
+        self.vth = -msg.angular.z
 
     def odom_callback(self):
         current_time = self.get_clock().now()

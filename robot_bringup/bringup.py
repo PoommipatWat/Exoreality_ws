@@ -98,7 +98,7 @@ class Bringup(Node):
         self.rpm.angular.z = w
 
     def timer_callback(self):
-        rpm = self.omni.inverse_omni(self.cmd_vel.linear.x, self.cmd_vel.linear.y, self.cmd_vel.angular.z, self.max_rpm*self.factor_rpm, filter=True)
+        rpm = self.omni.inverse_omni(self.cmd_vel.linear.x, self.cmd_vel.linear.y, -self.cmd_vel.angular.z, self.max_rpm*self.factor_rpm, filter=True)
         rpm_msg = Twist()
         rpm_msg.linear.x = rpm[0]
         rpm_msg.linear.y = rpm[1]
