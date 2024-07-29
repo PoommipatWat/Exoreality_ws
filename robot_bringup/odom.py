@@ -9,7 +9,7 @@ import numpy as np
 class Odom(Node):
     def __init__(self):
         super().__init__('odom')
-        self.publisher_ = self.create_publisher(Odometry, 'odom', 10)
+        self.publisher_ = self.create_publisher(Odometry, 'odom/raw', 10)
         self.timer = self.create_timer(0.01, self.odom_callback)
         self.subscription = self.create_subscription(
             Twist,
@@ -59,6 +59,10 @@ class Odom(Node):
         odom.pose.pose.orientation.x = quaternion[1]
         odom.pose.pose.orientation.y = quaternion[2]
         odom.pose.pose.orientation.z = quaternion[3]
+
+        odom.pose.covariance[0] = 0.001
+        odom.pose.covariance[7] = 0.001
+        odom.pose.covariance[35] = 0.001
         
         self.publisher_.publish(odom)
         
@@ -74,7 +78,7 @@ class Odom(Node):
         t.transform.rotation.y = quaternion[2]
         t.transform.rotation.z = quaternion[3]
         
-        self.tf_boardcast.sendTransform(t)
+        #self.tf_boardcast.sendTransform(t)
         
         self.last_time = current_time
 
