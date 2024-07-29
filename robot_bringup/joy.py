@@ -64,7 +64,12 @@ class JoyToCmdVel(Node):
             10)
         self.publisher = self.create_publisher(Twist, 'cmd_vel/rpm', 10)
 
-        self.omni = Omni_kinematics(105.94374972/250, 0.041)
+        self.wheel_dimeter = 0.082
+        self.wheel_distance = 0.10594374972
+        self.max_rpm = 400
+        self.factor_rpm = 0.85
+
+        self.omni = Omni_kinematics(self.wheel_distance, self.wheel_dimeter/2)
 
     def joy_callback(self, msg):
         twist = Twist()

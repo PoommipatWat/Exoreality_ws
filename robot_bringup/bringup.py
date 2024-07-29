@@ -70,11 +70,11 @@ class Bringup(Node):
         self.rpm = Twist()
 
         self.wheel_dimeter = 0.082
-        self.wheel_distance = 0.1
+        self.wheel_distance = 0.10594374972
         self.max_rpm = 400
         self.factor_rpm = 0.85
 
-        self.omni = Omni_kinematics(0.10594374972, 0.041)
+        self.omni = Omni_kinematics(self.wheel_distance, self.wheel_dimeter/2)
 
         self.cmd_vel = Twist()
 
