@@ -13,7 +13,7 @@ import os
 def generate_launch_description():
 	map_dir = LaunchConfiguration(
 		'map',
-		default = PathJoinSubstitution([FindPackageShare('robot_bringup'),'maps','firstmap.yaml'])
+		default = PathJoinSubstitution([FindPackageShare('robot_bringup'),'maps','wrg2024_map.yaml'])
 		)
 	
 	param_dir = LaunchConfiguration(
