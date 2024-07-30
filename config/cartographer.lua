@@ -34,12 +34,16 @@ TRAJECTORY_BUILDER_2D.min_range = 0.3
 TRAJECTORY_BUILDER_2D.max_range = 5.0
 TRAJECTORY_BUILDER_2D.missing_data_ray_length = 5.0
 TRAJECTORY_BUILDER_2D.use_imu_data = false
-TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = false 
+TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
 TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(0.01)
+TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.1
+TRAJECTORY_BUILDER_2D.submaps.num_range_data = 90
+TRAJECTORY_BUILDER_2D.submaps.grid_options_2d.resolution = 0.05
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 10
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 40
 
 POSE_GRAPH.constraint_builder.min_score = 0.5
 POSE_GRAPH.constraint_builder.global_localization_min_score = 0.7
-
--- POSE_GRAPH.optimize_every_n_nodes = 0
+POSE_GRAPH.optimize_every_n_nodes = 0
 
 return options
