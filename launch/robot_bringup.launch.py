@@ -33,12 +33,12 @@ def generate_launch_description():
             name='imu_tf_pub_laser',
             arguments=['0.0', '0', '0.0','0.0', '0', '0','base_link','imu_link'],
         ),
-        Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
-            output='screen',
-            parameters=[ekf_config_path],
-            remappings=[('/odometry/filtered', '/odom')]
-        ),
+        # Node(
+        #     package='robot_localization',
+        #     executable='ekf_node',
+        #     name='ekf_filter_node',
+        #     output='screen',
+        #     parameters=[ekf_config_path],
+        #     remappings=[('/odometry/filtered', '/odom')]
+        # ),
     ])
