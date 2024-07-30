@@ -42,23 +42,23 @@ def generate_launch_description():
 			default_value = 'false',
 		),
 		
-		IncludeLaunchDescription(
-			PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
-			launch_arguments = {
-			'map':map_dir,
-			'use_sim_time': use_sim_time,
-			'params_file': param_dir
-			}.items(),
-		),
+		# IncludeLaunchDescription(
+		# 	PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
+		# 	launch_arguments = {
+		# 	'map':map_dir,
+		# 	'use_sim_time': use_sim_time,
+		# 	'params_file': param_dir
+		# 	}.items(),
+		# ),
 		
-		# Node(
-		# 	package= 'rviz2',
-		# 	executable= 'rviz2',
-		# 	name= 'rviz2',
-		#  	arguments= ['-d', rviz_config_dir],
-		#  	parameters = [{'use_sim_time': use_sim_time}],
-		#  	output = 'screen',
-		#  	),
+		Node(
+			package= 'rviz2',
+			executable= 'rviz2',
+			name= 'rviz2',
+		 	arguments= ['-d', rviz_config_dir],
+		 	parameters = [{'use_sim_time': use_sim_time}],
+		 	output = 'screen',
+		 	),
 		
 	
 	])
